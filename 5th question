@@ -1,0 +1,16 @@
+#json_ex1.py
+
+import json
+data = {
+    "user": {
+        "name":"apsar", 
+        "age": 24
+    }
+}
+
+with open("data_file.json", "w") as write_file:
+    json.dump(data,write_file, indent=2)
+
+json_str = json.dumps(data, indent=2)
+print(json_str)
+
