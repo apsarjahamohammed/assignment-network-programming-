@@ -1,0 +1,47 @@
+ #tcpclient.py
+
+import socket
+
+port = 60
+ip = socket.gethostname()
+buffer_size = 30
+
+msg = b"hello world"
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+s.connect((ip, port))
+
+s.send(msg)
+
+data = s.recv(buffer_size)
+
+s.close()
+
+
+	#tcpserver.py
+
+
+import socket
+
+port = 60
+ip = socket.gethostname()
+buffer_size = 30
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+s.bind((ip, port))
+
+s.listen(1)
+
+c, addr = s.accept()
+
+print('connection address', addr)
+while True:
+    data = c.recv(buffer_size)
+    if not data:
+        break
+    print("Received data", data)
+    #c.send(data)
+    c.close()
+
