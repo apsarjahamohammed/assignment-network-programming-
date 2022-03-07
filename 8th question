@@ -1,0 +1,47 @@
+#json_client.py
+
+import socket
+import sys
+import json
+
+jsonResult ={"Account":"12345","Employee":"apsar","Box":"abc","Customer":"xyz"}
+jsonResult = json.dumps(jsonResult).encode('utf-8')
+
+try:
+    sock = socket.socket()
+except socket.error as err:
+    print('socket error because of %s' %(err))
+
+port = 1500
+address = '127.0.0.1'
+
+try:
+    sock.connect((address, port))
+    sock.send(jsonResult)
+except socket.gaierror:
+
+    print('these an eror resolving the host')
+
+    sys.exit()
+
+
+	#json_server.py
+
+import socket
+
+sock = socket.socket()
+print("socket created..")
+
+port = 1500
+address = '127.0.0.1'
+sock.bind((address,port))
+sock.listen(5)
+
+print('socket is listening')
+while True:
+    c, addr = sock.accept()
+    print('got connection from', addr)
+
+    jsonReceived = c.recv(1024)
+    print("json received -->", jsonReceived)
+    c.close()
