@@ -1,0 +1,41 @@
+  #date_client.py
+
+
+
+import socket
+import datetime
+
+s = socket.socket()
+host = socket.gethostname()
+port = 12345
+
+s.bind((host, port))
+s.listen(5)
+
+while True:
+    c, addr = s.accept()
+    print('got connection from add', addr)
+    date = datetime.datetime.now()
+    d = str(date)
+
+    c.send(d.encode())
+    c.close()
+    
+
+
+#time_server.py
+
+
+import socket
+
+s = socket.socket()
+
+host = socket.gethostname()
+port = 12345
+
+s.connect((host, port))
+
+print(s.recv(1024).decode())
+
+s.close()
+
