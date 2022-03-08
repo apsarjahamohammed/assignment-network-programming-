@@ -1,0 +1,46 @@
+  #client.ppy
+
+import socket
+import sys
+
+c1 = socket.socket()
+c1.connect(('localhost', 12345))
+path = input("file name:")
+print("requesting the attributes:", path)
+c1.send(path.encode())
+atr = c1.recv(1024).decode()
+atr = list(atr.strip('][').split(","))
+print("received attributes")
+for i in atr:
+    print(i)
+c1.close()
+
+
+
+  #server.py
+  import os
+import socket
+import os
+import sys
+
+server = socket.socket()
+server.bind(('localhost', 12345))
+server.listen(5)
+print("waiting for connection")
+i = 1
+while True:
+    c, addr = server.accept()
+    print(f"connection establish with client {i}", addr)
+    path = c.recv(1024).decode()
+    print(f"file name by client {i} is", path)
+    info = os.lstat(path)
+    info = str(info)
+    atr = info[15:-1]
+    atrs = list(atr.replace('=',":").split("'"))
+    atrs = str(atrs)
+    c.send(atrs.encode())
+    print(f"file attributes send to client {i}")
+    i = i+1
+    c.close()
+
+
